@@ -1,0 +1,48 @@
+.flex {
+ display: flex;
+ flex-wrap: wrap;
+}
+
+.column {
+  min-width: 260px;
+  min-height: 325px;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.book {
+  bottom: 15px;
+  position: absolute;
+  width: 100%;
+}
+
+.col-2 {
+  margin-left: 15px;
+}
+
+.pb {
+  padding-bottom: 15px !important;
+  text-align: center;
+}
+
+.button {
+  background-color: #496572;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+  font-size: 20px;
+  margin: 0 auto;
+  padding: 4px 8px;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

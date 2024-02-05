@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <title>HH Booking calendar</title>
+  <meta name="description" content="Booking Calendar">
+  <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="calendar">
+    <h2>Step 1: Check availability</h2>
+
+    <div class="flex">
+      <div class="column">
+        <p class="pb">Select your check-in date:</p>
+
+        <div class="check-in">
+        </div>
+
+        <div class="book">
+          <button id="book-single-night" class="button" disabled>
+            Book a single night &rarr;
+          </button>
+        </div>
+      </div>
+
+      <div id="multi-night" class="flex hidden col-2">
+        <div class="column">
+          <p class="pb">Or, select additional nights:</p>
+
+          <div class="multi-night">
+          </div>
+
+          <div class="book">
+            <button id="book-multi-night" class="button"  disabled>
+              Book multiple nights  &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="acuity" class="hidden">
+    <h2>Step 2: Book your stay</h2>
+    <p>Select *only* the first night of your booking, add extras and confirm:</p>
+    <div id="acuity-wrapper"></div>
+  </div>
+
+
+  <script src="https://unpkg.com/js-datepicker"></script>
+  <script src="script.js"></script>
+  <script src="https://embed.acuityscheduling.com/js/embed.js" type="text/javascript"></script>
+</body>
+</html>
