@@ -11,8 +11,55 @@
 <body>
   <div class="calendar">
     <h2>Check availability:</h2>
-
     <div class="flex">
+      <div class="flex column">
+        <button class="button">
+          Book a single night &rarr;
+        </button>
+
+        <div class="single-night-calendar calendar__wrapper">
+          <div class="flex calendar__copy">
+            Select your night:
+          </div>
+
+          <div class="single-night">
+          </div>
+
+
+        </div>
+        <div class="book">
+          <button id="book-single-night" class="button" disabled>
+            Continue &rarr;
+          </button>
+        </div>
+      </div>
+      <div class="flex column col-2">
+        <button class="button">
+          Book multiple nights &rarr;
+        </button>
+
+        <div class="multi-night-calendar calendar__wrapper">
+          <div class="flex calendar__copy">
+            <div>Select check-in date:</div>
+            <div>Select check-out date:</div>
+          </div>
+
+          <div class="check-in">
+          </div>
+
+          <div class="multi-night">
+          </div>
+        </div>
+        <div class="book">
+          <button id="book-multi-night" class="button" disabled>
+            Continue &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- <div class="flex">
       <div class="column">
         <p class="pb">Select your check-in date:</p>
 
@@ -40,7 +87,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
 
@@ -52,7 +99,7 @@
 
 
   <script src="https://unpkg.com/js-datepicker"></script>
-  <script src="script.js"></script>
+  <script src="script-naarm.js"></script>
   <script src="https://embed.acuityscheduling.com/js/embed.js" type="text/javascript"></script>
 </body>
 

@@ -1,11 +1,27 @@
+.calendar {
+  width: 1080px;
+}
+
+.calendar__wrapper {
+  height: 290px;
+}
+
+.multi-night-calendar.calendar__wrapper {
+  width: 510px;
+}
+
+.calendar__copy {
+  justify-content: space-around;
+  padding: 20px 0 0 0;
+}
+
 .flex {
  display: flex;
  flex-wrap: wrap;
 }
 
 .column {
-  min-width: 260px;
-  min-height: 325px;
+  flex-direction: column;
 }
 
 .hidden {
@@ -13,14 +29,8 @@
   visibility: hidden;
 }
 
-.book {
-  bottom: 15px;
-  position: absolute;
-  width: 100%;
-}
-
 .col-2 {
-  margin-left: 15px;
+  margin-left: 30px;
 }
 
 .pb {
@@ -29,20 +39,32 @@
 }
 
 .button {
-  background-color: #496572;
-  border-radius: 4px;
-  color: white;
-  display: flex;
-  font-size: 20px;
-  margin: 0 auto;
-  padding: 4px 8px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid #000000;
+  text-align: left;
+  vertical-align: top;
+  padding: calc(.875rem - 3px) 63px calc(.875rem - 3px) 15px;
+  background-color: #00000000;
+  font-size: 14px;
+  letter-spacing: 0.16px;
+  min-height: 48px;
+  min-width: 250px;
+  line-height: 1.29;
+  color: #000000;
+  font-weight: 400;
+  border-radius: 3px;
 }
 
 .button:hover {
-  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .button:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.3;
 }
+
+
+

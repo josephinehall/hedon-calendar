@@ -2,17 +2,17 @@ const disabledDates = [];
 var googleCalData = [];
 var calendar = null;
 var multiNightCalendar = null;
-var availableMonths = 4;
+var availableMonths = 6;
 
 const acuityEmbedUrls = {
-  weekday1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=12404888",
-  weekday2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15539912",
-  weekday3: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15797860",
-  weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=13051045",
-  weekend2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=13122085",
-  weekday1Weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15797909",
-  weekday2Weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15542319",
-  weekday1Weekend2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15797947"
+  weekday1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505",
+  weekday2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831591",
+  weekday3: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831622",
+  weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832411",
+  weekend2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832566",
+  weekday1Weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832162",
+  weekday2Weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832095",
+  weekday1Weekend2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832352"
 };
 
 fetchGoogleCalData();
@@ -32,7 +32,9 @@ function fetchGoogleCalData() {
     createCheckInCalendar();
     createMultiNightCalendar();
 
-    calendar.calendarContainer.style.setProperty("top", "50px");
+    calendar.calendarContainer.style.setProperty("top", "60px");
+    multiNightCalendar.calendarContainer.style.setProperty("left", "260px");
+    multiNightCalendar.calendarContainer.style.setProperty("top", "60px");
   })
   .catch(function(error) {
     console.error("Error:", error);
@@ -146,7 +148,7 @@ function onSelectCheckIn(instance, date) {
     multiNightCalendar.setMax(maxDate);
 
     document.querySelector("#multi-night").classList.remove("hidden");
-    multiNightCalendar.calendarContainer.style.setProperty("top", "50px");
+    multiNightCalendar.calendarContainer.style.setProperty("top", "30px");
   }
 
   if (!differenceInDays || differenceInDays > 2) {
