@@ -13,47 +13,50 @@
     <h2>Check availability:</h2>
     <div class="flex">
       <div class="flex column">
-        <button class="button">
+        <button id="show-single-night" class="button">
           Book a single night &rarr;
         </button>
 
-        <div class="single-night-calendar calendar__wrapper">
-          <div class="flex calendar__copy">
-            Select your night:
+        <div id="single-night-calendar" class="hidden">
+          <div class="single calendar__wrapper">
+            <div class="flex calendar__copy">
+              Select your night:
+            </div>
+
+            <div class="single-night">
+            </div>
           </div>
-
-          <div class="single-night">
+          <div class="book">
+            <button id="book-single-night" class="button" disabled>
+              Continue &rarr;
+            </button>
           </div>
-
-
-        </div>
-        <div class="book">
-          <button id="book-single-night" class="button" disabled>
-            Continue &rarr;
-          </button>
         </div>
       </div>
       <div class="flex column col-2">
-        <button class="button">
+        <button id="show-multi-night" class="button">
           Book multiple nights &rarr;
         </button>
 
-        <div class="multi-night-calendar calendar__wrapper">
-          <div class="flex calendar__copy">
-            <div>Select check-in date:</div>
-            <div>Select check-out date:</div>
-          </div>
+        <div id="multi-night-calendar" class="">
+          <div class="multi calendar__wrapper">
+            <div class="info"><em>Contact us if you'd like more than 3 nights stay.</em></div>
+            <div class="flex calendar__copy">
+              <div>Select check-in date:</div>
+              <div>Select check-out date:</div>
+            </div>
 
-          <div class="check-in">
-          </div>
+            <div class="check-in">
+            </div>
 
-          <div class="multi-night">
+            <div class="multi-night">
+            </div>
           </div>
-        </div>
-        <div class="book">
-          <button id="book-multi-night" class="button" disabled>
-            Continue &rarr;
-          </button>
+          <div class="book">
+            <button id="book-multi-night" class="button" disabled>
+              Continue &rarr;
+            </button>
+          </div>
         </div>
       </div>
     </div>
