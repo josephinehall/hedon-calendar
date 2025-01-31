@@ -1,7 +1,8 @@
 const disabledDates = [];
 var googleCalData = [];
-var calendar = null;
-var multiNightCalendar = null;
+var singleNightCalendar = null;
+var checkIncalendar = null;
+var checkOutCalendar = null;
 var availableMonths = 6;
 
 const acuityEmbedUrls = {
@@ -16,7 +17,7 @@ const acuityEmbedUrls = {
 };
 
 fetchGoogleCalData();
-initaliseIframe();
+initalise();
 
 function fetchGoogleCalData() {
   fetch("https://hedonhouse.app.n8n.cloud/webhook/naarm")
@@ -29,12 +30,14 @@ function fetchGoogleCalData() {
   .then(function(data) {
     googleCalData = data;
     calculateDisabledDays();
+    createSingleNightCalendar();
     createCheckInCalendar();
-    createMultiNightCalendar();
+    createCheckOutCalendar();
 
-    calendar.calendarContainer.style.setProperty("top", "90px");
-    multiNightCalendar.calendarContainer.style.setProperty("left", "260px");
-    multiNightCalendar.calendarContainer.style.setProperty("top", "90px");
+    singleNightCalendar.calendarContainer.style.setProperty("top", "60px");
+    checkInCalendar.calendarContainer.style.setProperty("top", "90px");
+    checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
+    checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
   })
   .catch(function(error) {
     console.error("Error:", error);
@@ -73,11 +76,26 @@ function calculateDisabledDays() {
   });
 }
 
+function createSingleNightCalendar() {
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + availableMonths); // 4 months
+
+  singleNightCalendar = datepicker('.single-night', {
+    id: 2,
+    alwaysShow: true,
+    disabledDates: disabledDates,
+    disableYearOverlay: true,
+    maxDate: maxDate,
+    minDate: new Date(),
+    onSelect: onSelectSingleNight,
+  });
+}
+
 function createCheckInCalendar() {
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + availableMonths); // 4 months
 
-  calendar = datepicker('.check-in', {
+  checkInCalendar = datepicker('.check-in', {
     id: 1,
     alwaysShow: true,
     disabledDates: disabledDates,
@@ -88,42 +106,51 @@ function createCheckInCalendar() {
   });
 }
 
-function createMultiNightCalendar() {
+function createCheckOutCalendar() {
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + availableMonths);
 
-  multiNightCalendar = datepicker('.multi-night', {
+  checkOutCalendar = datepicker('.check-out', {
     id: 1,
     alwaysShow: true,
     disabledDates: disabledDates,
     disableYearOverlay: true,
     maxDate: maxDate,
     minDate: new Date(),
-    onSelect: onSelectMultiNight,
+    onSelect: onSelectCheckOut,
   });
+}
+
+function onSelectSingleNight(instance, date) {
+  document.querySelector("#acuity").classList.add("hidden");
+  document.querySelector("#acuity-embed").src = "";
+
+  document.querySelector("#book-single-night").disabled = false;
+
+  // Todo handle deselecting the same day & then disabling the continue button
+  // Setting the date in the calendar
+  // Call to showing the embedder
 }
 
 function onSelectCheckIn(instance, date) {
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
 
-  const start = multiNightCalendar.getRange().start;
-  const end = multiNightCalendar.getRange().end;
+  const start = checkOutCalendar.getRange().start;
+  const end = checkOutCalendar.getRange().end;
   const differenceInDays = getDifferenceInDays(start, end);
 
   if (differenceInDays > 2) {
-    multiNightCalendar.setDate();
-    document.querySelector("#book-single-night").disabled = false;
+    checkOutCalendar.setDate();
     document.querySelector("#book-multi-night").disabled = true;
-    document.querySelector("#multi-night").classList.add("hidden");
+    document.querySelector("#multi-night-calendar").classList.add("hidden");
     return;
   }
 
   if (!date) {
-    multiNightCalendar.setDate();
-    multiNightCalendar.setMax();
-    document.querySelector("#book-single-night").disabled = true;
-    document.querySelector("#multi-night").classList.add("hidden");
+    checkOutCalendar.setDate();
+    checkOutCalendar.setMax();
+    document.querySelector("#multi-night-calendar").classList.add("hidden");
     return;
   }
 
@@ -131,9 +158,9 @@ function onSelectCheckIn(instance, date) {
   var nextDayIsDisabled = isDisabled(nextDay);
 
   if (nextDayIsDisabled) {
-    multiNightCalendar.setDate();
-    multiNightCalendar.setMax();
-    document.querySelector("#multi-night").classList.add("hidden");
+    checkOutCalendar.setDate();
+    checkOutCalendar.setMax();
+    document.querySelector("#multi-night-calendar").classList.add("hidden");
   } else {
     var maxDate = new Date(nextDay.getTime() + (1 * 86400000));
 
@@ -145,24 +172,23 @@ function onSelectCheckIn(instance, date) {
       }
     }
 
-    multiNightCalendar.setMax(maxDate);
+    checkOutCalendar.setMax(maxDate);
 
-    document.querySelector("#multi-night").classList.remove("hidden");
-    multiNightCalendar.calendarContainer.style.setProperty("top", "30px");
+    document.querySelector("#multi-night-calendar").classList.remove("hidden");
+    checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
   }
 
-  if (!differenceInDays || differenceInDays > 2) {
-    document.querySelector("#book-single-night").disabled = false;
-  }
+  // if (!differenceInDays || differenceInDays > 2) {
+  //   document.querySelector("#book-single-night").disabled = false;
+  // }
 }
 
-function onSelectMultiNight(instance, date) {
+function onSelectCheckOut(instance, date) {
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
 
-  if (!date || calendar.getRange().start.getTime() === calendar.getRange().end.getTime()) {
+  if (!date || checkInCalendar.getRange().start.getTime() === checkInCalendar.getRange().end.getTime()) {
     document.querySelector("#book-multi-night").disabled = true;
-    document.querySelector("#book-single-night").disabled = false;
     return;
   }
 
@@ -170,12 +196,11 @@ function onSelectMultiNight(instance, date) {
   var nextDayIsDisabled = isDisabled(nextDay);
 
   if (nextDayIsDisabled) {
-    multiNightCalendar.setMax();
-    multiNightCalendar.setMax(date);
+    checkOutCalendar.setMax();
+    checkOutCalendar.setMax(date);
   }
 
   document.querySelector("#book-multi-night").disabled = false;
-  document.querySelector("#book-single-night").disabled = true;
 }
 
 function isDisabled(day) {
@@ -186,19 +211,29 @@ function isDisabled(day) {
   });
 }
 
-function handleSingleNight() {
-  var checkInDay = calendar.getRange().start.getDay();
+function handleShowSingleNight() {
+  document.querySelector("#multi-night-calendar").classList.add("hidden");
+  document.querySelector("#single-night-calendar").classList.remove("hidden");
+}
 
-  if (checkInDay === 5 || checkInDay === 6){
+function handleSingleNight() {
+  var day = singleNightCalendar.getRange().start.getDay();
+
+  if (day === 5 || day === 6){
     showEmbedder(acuityEmbedUrls.weekend1);
   } else {
     showEmbedder(acuityEmbedUrls.weekday1);
   }
 }
 
+function handleShowMultiNight() {
+  document.querySelector("#multi-night-calendar").classList.remove("hidden");
+  document.querySelector("#single-night-calendar").classList.add("hidden");
+}
+
 function handleMultiNight() {
-  var start = multiNightCalendar.getRange().start;
-  var end = multiNightCalendar.getRange().end;
+  var start = checkOutCalendar.getRange().start;
+  var end = checkOutCalendar.getRange().end;
   var differenceInDays = getDifferenceInDays(start, end);
   var numberOfNights = differenceInDays + 1;
 
@@ -226,10 +261,14 @@ function showEmbedder(url) {
   document.querySelector("#acuity").classList.remove("hidden");
 }
 
-function initaliseIframe() {
+function initalise() {
+  document.querySelector("#show-single-night").addEventListener("click", handleShowSingleNight);
   document.querySelector("#book-single-night").addEventListener("click", handleSingleNight);
+
+  document.querySelector("#show-multi-night").addEventListener("click", handleShowMultiNight);
   document.querySelector("#book-multi-night").addEventListener("click", handleMultiNight);
-  document.querySelector("#acuity-wrapper").innerHTML = '<iframe id="acuity-embed" src="https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=12404888" title="Schedule Appointment" width="100%" height="1200px" frameBorder="0"></iframe>';
+
+  document.querySelector("#acuity-wrapper").innerHTML = '<iframe id="acuity-embed" src="https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505" title="Schedule Appointment" width="100%" height="1200px" frameBorder="0"></iframe>';
 }
 
 function getDifferenceInDays(start, end) {
