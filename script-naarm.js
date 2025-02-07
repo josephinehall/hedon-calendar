@@ -77,6 +77,17 @@ function findDisabledDaysForSingleNight() {
   });
 }
 
+function findDisabledDaysForMultiNight() {
+  // Add to disabled nights all the free single nights
+
+  // Set these in the check in calendar
+
+  // then initialise the check out calendar with only the dates following check in, up to 3 days
+  // -- from check in, find the next disabled night
+  // -- if that's more than 3 away, disable everything else from check-in + 4
+  // -- if that's less than 3 away, disable everything else from check-in + 3 or check-in + 2. Check-in + 1 should just be a single night and not possible
+}
+
 function createSingleNightCalendar() {
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + availableMonths); // 4 months
