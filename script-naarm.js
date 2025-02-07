@@ -1,4 +1,5 @@
-const disabledDates = [];
+const disabledDatesForSingleNight = [];
+const disabledDatesForMultiNight = [];
 var googleCalData = [];
 var singleNightCalendar = null;
 var checkIncalendar = null;
@@ -29,7 +30,7 @@ function fetchGoogleCalData() {
   })
   .then(function(data) {
     googleCalData = data;
-    calculateDisabledDays();
+    findDisabledDaysForSingleNight();
     createSingleNightCalendar();
     createCheckInCalendar();
     createCheckOutCalendar();
@@ -44,7 +45,7 @@ function fetchGoogleCalData() {
   });
 };
 
-function calculateDisabledDays() {
+function findDisabledDaysForSingleNight() {
   googleCalData.forEach((event) => {
     var startDate;
     var endDate;
@@ -55,7 +56,7 @@ function calculateDisabledDays() {
       startDate = new Date(event.start.dateTime);
     }
 
-    disabledDates.push(startDate);
+    disabledDatesForSingleNight.push(startDate);
 
     if (event.end.hasOwnProperty("date")) {
       endDate = new Date(event.end.date);
@@ -70,7 +71,7 @@ function calculateDisabledDays() {
       for(let i = 1; i < durationInDays; i++) {
         const date = new Date(startDate.getTime() + (i * 86400000));
 
-        disabledDates.push(date);
+        disabledDatesForSingleNight.push(date);
       }
     }
   });
@@ -83,13 +84,45 @@ function createSingleNightCalendar() {
   singleNightCalendar = datepicker('.single-night', {
     id: 2,
     alwaysShow: true,
-    disabledDates: disabledDates,
+    disabledDates: disabledDatesForSingleNight,
     disableYearOverlay: true,
     maxDate: maxDate,
     minDate: new Date(),
     onSelect: onSelectSingleNight,
   });
 }
+
+function showSingleNightCalendar() {
+  document.querySelector("#multi-night-calendar").classList.add("hidden");
+  document.querySelector("#single-night-calendar").classList.remove("hidden");
+  document.querySelector("#acuity").classList.add("hidden");
+  document.querySelector("#acuity-embed").src = "";
+}
+
+function onSelectSingleNight(instance, date) {
+  document.querySelector("#acuity").classList.add("hidden");
+  document.querySelector("#acuity-embed").src = "";
+
+  if (!date) {
+    singleNightCalendar.setDate();
+    singleNightCalendar.setMax();
+    document.querySelector("#book-single-night").disabled = true;
+    return;
+  }
+
+  document.querySelector("#book-single-night").disabled = false;
+}
+
+function bookSingleNight() {
+  var day = singleNightCalendar.dateSelected.getDay();
+
+  if (day === 5 || day === 6){
+    showEmbedder(acuityEmbedUrls.weekend1);
+  } else {
+    showEmbedder(acuityEmbedUrls.weekday1);
+  }
+}
+
 
 function createCheckInCalendar() {
   const maxDate = new Date();
@@ -98,7 +131,7 @@ function createCheckInCalendar() {
   checkInCalendar = datepicker('.check-in', {
     id: 1,
     alwaysShow: true,
-    disabledDates: disabledDates,
+    disabledDates: disabledDatesForMultiNight,
     disableYearOverlay: true,
     maxDate: maxDate,
     minDate: new Date(),
@@ -113,23 +146,12 @@ function createCheckOutCalendar() {
   checkOutCalendar = datepicker('.check-out', {
     id: 1,
     alwaysShow: true,
-    disabledDates: disabledDates,
+    disabledDatesForSingleNight: disabledDatesForMultiNight,
     disableYearOverlay: true,
     maxDate: maxDate,
     minDate: new Date(),
     onSelect: onSelectCheckOut,
   });
-}
-
-function onSelectSingleNight(instance, date) {
-  document.querySelector("#acuity").classList.add("hidden");
-  document.querySelector("#acuity-embed").src = "";
-
-  document.querySelector("#book-single-night").disabled = false;
-
-  // Todo handle deselecting the same day & then disabling the continue button
-  // Setting the date in the calendar
-  // Call to showing the embedder
 }
 
 function onSelectCheckIn(instance, date) {
@@ -203,35 +225,16 @@ function onSelectCheckOut(instance, date) {
   document.querySelector("#book-multi-night").disabled = false;
 }
 
-function isDisabled(day) {
-  return disabledDates.some((disabledDate) => {
-    return disabledDate.getDate() === day.getDate() &&
-            disabledDate.getMonth() === day.getMonth() &&
-            disabledDate.getYear() === day.getYear();
-  });
-}
-
-function handleShowSingleNight() {
-  document.querySelector("#multi-night-calendar").classList.add("hidden");
-  document.querySelector("#single-night-calendar").classList.remove("hidden");
-}
-
-function handleSingleNight() {
-  var day = singleNightCalendar.getRange().start.getDay();
-
-  if (day === 5 || day === 6){
-    showEmbedder(acuityEmbedUrls.weekend1);
-  } else {
-    showEmbedder(acuityEmbedUrls.weekday1);
-  }
-}
-
-function handleShowMultiNight() {
+function showMultiNightCalendar() {
   document.querySelector("#multi-night-calendar").classList.remove("hidden");
   document.querySelector("#single-night-calendar").classList.add("hidden");
+  document.querySelector("#acuity").classList.add("hidden");
+  document.querySelector("#acuity-embed").src = "";
+  singleNightCalendar.setDate();
+  document.querySelector("#book-single-night").disabled = true;
 }
 
-function handleMultiNight() {
+function bookMultiNight() {
   var start = checkOutCalendar.getRange().start;
   var end = checkOutCalendar.getRange().end;
   var differenceInDays = getDifferenceInDays(start, end);
@@ -256,17 +259,25 @@ function handleMultiNight() {
   }
 }
 
+function isDisabled(day) {
+  return disabledDatesForSingleNight.some((disabledDate) => {
+    return disabledDate.getDate() === day.getDate() &&
+            disabledDate.getMonth() === day.getMonth() &&
+            disabledDate.getYear() === day.getYear();
+  });
+}
+
 function showEmbedder(url) {
   document.querySelector("#acuity-embed").src = url;
   document.querySelector("#acuity").classList.remove("hidden");
 }
 
 function initalise() {
-  document.querySelector("#show-single-night").addEventListener("click", handleShowSingleNight);
-  document.querySelector("#book-single-night").addEventListener("click", handleSingleNight);
+  document.querySelector("#show-single-night").addEventListener("click", showSingleNightCalendar);
+  document.querySelector("#book-single-night").addEventListener("click", bookSingleNight);
 
-  document.querySelector("#show-multi-night").addEventListener("click", handleShowMultiNight);
-  document.querySelector("#book-multi-night").addEventListener("click", handleMultiNight);
+  document.querySelector("#show-multi-night").addEventListener("click", showMultiNightCalendar);
+  document.querySelector("#book-multi-night").addEventListener("click", bookMultiNight);
 
   document.querySelector("#acuity-wrapper").innerHTML = '<iframe id="acuity-embed" src="https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505" title="Schedule Appointment" width="100%" height="1200px" frameBorder="0"></iframe>';
 }

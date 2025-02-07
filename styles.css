@@ -1,4 +1,6 @@
-.calendar {
+.calendar,
+.acuity {
+  max-width: 800px;
 }
 
 .calendar__wrapper {

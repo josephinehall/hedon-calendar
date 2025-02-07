@@ -10,7 +10,26 @@
 
 <body>
   <div class="calendar">
-    <h2>Check availability:</h2>
+    <div class="column">
+      <h2>Step 1: Check availability and rates</h2>
+      <p>
+        Select the date you’d like to confirm availability for. If the date is unavailable, click here to add yourself
+        to the waitlist, or select another date.
+      </p>
+      <p>
+        If you’d like a <strong>single night</strong>, click ‘Book a single night’ and select that date in the first
+        calendar display to view the
+        standard rates for that date for up to two people. Click ‘Continue’ to proceed to booking.
+      </p>
+      <p>
+        If you’d like <strong>multiple nights</strong>, click ‘Book multiple nights’, select your check-in date on the
+        first calendar, and your
+        check-out date on the second calendar. Standard rates will display. Click ‘Continue’ to proceed to booking.
+      </p>
+      <p>
+        <em>If you have a discount or voucher code, it can be used in the next step to confirm your modified rate.</em>
+      </p>
+    </div>
     <div class="flex">
       <div class="flex column">
         <button id="show-single-night" class="button">
@@ -60,43 +79,17 @@
         </div>
       </div>
     </div>
-
-
-    <!-- <div class="flex">
-      <div class="column">
-        <p class="pb">Select your check-in date:</p>
-
-        <div class="check-in">
-        </div>
-
-        <div class="book">
-          <button id="book-single-night" class="button" disabled>
-            Book a single night &rarr;
-          </button>
-        </div>
-      </div>
-
-      <div id="multi-night" class="flex hidden col-2">
-        <div class="column">
-          <p class="pb">Or, select additional nights:</p>
-
-          <div class="multi-night">
-          </div>
-
-          <div class="book">
-            <button id="book-multi-night" class="button" disabled>
-              Book multiple nights &rarr;
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 
 
-  <div id="acuity" class="hidden">
-    <h2>Step 2: Book your stay</h2>
-    <p>Select *only* the first night of your booking, add extras and confirm:</p>
+  <div id="acuity" class="acuity hidden">
+    <div class="column">
+      <h2>Step 2: Confirm your stay</h2>
+      <p>
+        Select only your check-in date and time. <em>Be sure to read through the instructions at the top of the form
+          before completing it.</em>
+      </p>
+    </div>
     <div id="acuity-wrapper"></div>
   </div>
 
