@@ -1,20 +1,45 @@
 const disabledDatesForSingleNight = [];
-const disabledDatesForMultiNight = [];
+var disabledDatesForMultiNight = [];
 var googleCalData = [];
+var orderedGoogleCalData = [];
 var singleNightCalendar = null;
-var checkIncalendar = null;
+var checkInCalendar = null;
 var checkOutCalendar = null;
 var availableMonths = 6;
 
 const acuityEmbedUrls = {
-  weekday1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505",
-  weekday2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831591",
-  weekday3: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831622",
-  weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832411",
-  weekend2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832566",
-  weekday1Weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832162",
-  weekday2Weekend1: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832095",
-  weekday1Weekend2: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832352"
+  weekday1: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505",
+    price: "",
+  },
+  weekday2: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831591",
+    price: "",
+  },
+  weekday3: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831622",
+    price: "",
+  },
+  weekend1: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832411",
+    price: "",
+  },
+  weekend2: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832566",
+    price: "",
+  },
+  weekday1Weekend1: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832162",
+    price: "",
+  },
+  weekday2Weekend1: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832095",
+    price: "",
+  },
+  weekday1Weekend2: {
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832352",
+    price: "",
+  },
 };
 
 fetchGoogleCalData();
@@ -30,15 +55,20 @@ function fetchGoogleCalData() {
   })
   .then(function(data) {
     googleCalData = data;
+
+    orderedGoogleCalData = Array.from(googleCalData);
+    orderedGoogleCalData.sort((a,b) => {
+      return new Date(a.start.dateTime) - new Date(b.start.dateTime);
+    });
+
     findDisabledDaysForSingleNight();
+    findDisabledDaysForMultiNight();
     createSingleNightCalendar();
     createCheckInCalendar();
-    createCheckOutCalendar();
 
     singleNightCalendar.calendarContainer.style.setProperty("top", "60px");
     checkInCalendar.calendarContainer.style.setProperty("top", "90px");
-    checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
-    checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
+
   })
   .catch(function(error) {
     console.error("Error:", error);
@@ -47,22 +77,10 @@ function fetchGoogleCalData() {
 
 function findDisabledDaysForSingleNight() {
   googleCalData.forEach((event) => {
-    var startDate;
-    var endDate;
-
-    if (event.start.hasOwnProperty("date")) {
-      startDate = new Date(event.start.date);
-    } else {
-      startDate = new Date(event.start.dateTime);
-    }
+    var startDate = new Date(event.start.dateTime);
+    var endDate = new Date(event.end.dateTime);
 
     disabledDatesForSingleNight.push(startDate);
-
-    if (event.end.hasOwnProperty("date")) {
-      endDate = new Date(event.end.date);
-    } else {
-      endDate = new Date(event.end.dateTime);
-    }
 
     const durationInSeconds = Math.abs(endDate - startDate);
     const durationInDays = Math.ceil(durationInSeconds / (1000 * 60 * 60 * 24));
@@ -78,9 +96,25 @@ function findDisabledDaysForSingleNight() {
 }
 
 function findDisabledDaysForMultiNight() {
-  // Add to disabled nights all the free single nights
+  disabledDatesForMultiNight = Array.from(disabledDatesForSingleNight);
 
-  // Set these in the check in calendar
+  orderedGoogleCalData.forEach((event, index) => {
+
+    var eventEndDate = new Date(event.end.dateTime);
+    var nextEvent = orderedGoogleCalData[index + 1];
+
+    if (!nextEvent) return;
+
+    var nextEventStartDate = new Date(nextEvent.start.dateTime);
+
+    const durationInSeconds = Math.abs(nextEventStartDate - eventEndDate);
+    const durationInDays = Math.floor(durationInSeconds / (1000 * 60 * 60 * 24));
+
+    if (durationInDays === 1) {
+      disabledDatesForMultiNight.push(eventEndDate);
+    }
+
+  });
 
   // then initialise the check out calendar with only the dates following check in, up to 3 days
   // -- from check in, find the next disabled night
@@ -108,6 +142,8 @@ function showSingleNightCalendar() {
   document.querySelector("#single-night-calendar").classList.remove("hidden");
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
+  checkInCalendar.setDate();
+  if (checkOutCalendar) checkOutCalendar.remove();
 }
 
 function onSelectSingleNight(instance, date) {
@@ -128,9 +164,9 @@ function bookSingleNight() {
   var day = singleNightCalendar.dateSelected.getDay();
 
   if (day === 5 || day === 6){
-    showEmbedder(acuityEmbedUrls.weekend1);
+    showEmbedder(acuityEmbedUrls.weekend1.url);
   } else {
-    showEmbedder(acuityEmbedUrls.weekday1);
+    showEmbedder(acuityEmbedUrls.weekday1.url);
   }
 }
 
@@ -166,71 +202,41 @@ function createCheckOutCalendar() {
 }
 
 function onSelectCheckIn(instance, date) {
+  if (checkInCalendar.maxDate) checkInCalendar.setMax();
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
 
-  const start = checkOutCalendar.getRange().start;
-  const end = checkOutCalendar.getRange().end;
-  const differenceInDays = getDifferenceInDays(start, end);
-
-  if (differenceInDays > 2) {
-    checkOutCalendar.setDate();
-    document.querySelector("#book-multi-night").disabled = true;
-    document.querySelector("#multi-night-calendar").classList.add("hidden");
-    return;
+  if (checkOutCalendar && checkOutCalendar.remove && checkOutCalendar.remove()) {
+    checkOutCalendar.remove();
   }
 
   if (!date) {
-    checkOutCalendar.setDate();
-    checkOutCalendar.setMax();
     document.querySelector("#multi-night-calendar").classList.add("hidden");
     return;
   }
 
-  var nextDay = new Date(date.getTime() + 86400000);
-  var nextDayIsDisabled = isDisabled(nextDay);
+  createCheckOutCalendar();
 
-  if (nextDayIsDisabled) {
-    checkOutCalendar.setDate();
-    checkOutCalendar.setMax();
-    document.querySelector("#multi-night-calendar").classList.add("hidden");
-  } else {
-    var maxDate = new Date(nextDay.getTime() + (1 * 86400000));
+  var maxDate = new Date(date.getTime() + (3 * 86400000));
 
-    for(let i = 1; i > 0; i--) {
-      var previousDay = new Date(nextDay.getTime() + (i * 86400000));
+  for(let i = 3; i > 0; i--) {
+    var previousDay = new Date(date.getTime() + (i * 86400000));
 
-      if (isDisabled(previousDay)) {
-        maxDate = new Date(previousDay);
-      }
+    if (isDisabled(previousDay)) {
+      maxDate = new Date(previousDay);
     }
-
-    checkOutCalendar.setMax(maxDate);
-
-    document.querySelector("#multi-night-calendar").classList.remove("hidden");
-    checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
   }
 
-  // if (!differenceInDays || differenceInDays > 2) {
-  //   document.querySelector("#book-single-night").disabled = false;
-  // }
+  checkOutCalendar.setMax(maxDate);
+
+  checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
+  checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
 }
 
 function onSelectCheckOut(instance, date) {
-  document.querySelector("#acuity").classList.add("hidden");
-  document.querySelector("#acuity-embed").src = "";
-
   if (!date || checkInCalendar.getRange().start.getTime() === checkInCalendar.getRange().end.getTime()) {
     document.querySelector("#book-multi-night").disabled = true;
     return;
-  }
-
-  var nextDay = new Date(date.getTime() + 86400000);
-  var nextDayIsDisabled = isDisabled(nextDay);
-
-  if (nextDayIsDisabled) {
-    checkOutCalendar.setMax();
-    checkOutCalendar.setMax(date);
   }
 
   document.querySelector("#book-multi-night").disabled = false;
@@ -253,25 +259,25 @@ function bookMultiNight() {
 
   if (numberOfNights === 3) {
     if (start >= 0 && end <= 4) {
-      showEmbedder(acuityEmbedUrls.weekday3);
+      showEmbedder(acuityEmbedUrls.weekday3.url);
     } else if ([3, 6].includes(start) && [5, 1].includes(end)) {
-      showEmbedder(acuityEmbedUrls.weekday2Weekend1);
+      showEmbedder(acuityEmbedUrls.weekday2Weekend1.url);
     } else {
-      showEmbedder(acuityEmbedUrls.weekday1Weekend2);
+      showEmbedder(acuityEmbedUrls.weekday1Weekend2.url);
     }
   } else if (numberOfNights === 2) {
     if (start >= 0 && end <= 4) {
-      showEmbedder(acuityEmbedUrls.weekday2);
+      showEmbedder(acuityEmbedUrls.weekday2.url);
     } else if ([4, 6].includes(start) && [5, 0].includes(end)) {
-      showEmbedder(acuityEmbedUrls.weekday1Weekend1);
+      showEmbedder(acuityEmbedUrls.weekday1Weekend1.url);
     } else {
-      showEmbedder(acuityEmbedUrls.weekend2);
+      showEmbedder(acuityEmbedUrls.weekend2.url);
     }
   }
 }
 
 function isDisabled(day) {
-  return disabledDatesForSingleNight.some((disabledDate) => {
+  return disabledDatesForMultiNight.some((disabledDate) => {
     return disabledDate.getDate() === day.getDate() &&
             disabledDate.getMonth() === day.getMonth() &&
             disabledDate.getYear() === day.getYear();
