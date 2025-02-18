@@ -65,9 +65,15 @@ function fetchGoogleCalData() {
     findDisabledDaysForMultiNight();
     createSingleNightCalendar();
     createCheckInCalendar();
+    createCheckOutCalendar();
 
     singleNightCalendar.calendarContainer.style.setProperty("top", "60px");
     checkInCalendar.calendarContainer.style.setProperty("top", "90px");
+    checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
+    checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
+    checkOutCalendar.calendarContainer.classList.add("disabled");
+
+    checkOutCalendar.disabled = true;
 
   })
   .catch(function(error) {
@@ -115,11 +121,6 @@ function findDisabledDaysForMultiNight() {
     }
 
   });
-
-  // then initialise the check out calendar with only the dates following check in, up to 3 days
-  // -- from check in, find the next disabled night
-  // -- if that's more than 3 away, disable everything else from check-in + 4
-  // -- if that's less than 3 away, disable everything else from check-in + 3 or check-in + 2. Check-in + 1 should just be a single night and not possible
 }
 
 function createSingleNightCalendar() {
@@ -202,22 +203,24 @@ function createCheckOutCalendar() {
 }
 
 function onSelectCheckIn(instance, date) {
-  if (checkInCalendar.maxDate) checkInCalendar.setMax();
+  if (!!checkInCalendar.maxDate) {
+    checkInCalendar.setMax();
+  }
+
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
 
-  if (checkOutCalendar && checkOutCalendar.remove && checkOutCalendar.remove()) {
-    checkOutCalendar.remove();
-  }
 
   if (!date) {
+    checkOutCalendar.setDate();
+    checkOutCalendar.disabled = true;
+    checkOutCalendar.calendarContainer.classList.add("disabled");
     document.querySelector("#multi-night-calendar").classList.add("hidden");
     return;
   }
 
-  createCheckOutCalendar();
 
-  var maxDate = new Date(date.getTime() + (3 * 86400000));
+  var maxDate = new Date(date.getTime() + (4 * 86400000));
 
   for(let i = 3; i > 0; i--) {
     var previousDay = new Date(date.getTime() + (i * 86400000));
@@ -228,13 +231,17 @@ function onSelectCheckIn(instance, date) {
   }
 
   checkOutCalendar.setMax(maxDate);
-
-  checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
-  checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
+  checkOutCalendar.disabled = false;
+  checkOutCalendar.calendarContainer.classList.remove("disabled");
 }
 
 function onSelectCheckOut(instance, date) {
-  if (!date || checkInCalendar.getRange().start.getTime() === checkInCalendar.getRange().end.getTime()) {
+  if (
+    !date ||
+    checkInCalendar.getRange().start.getTime() === checkInCalendar.getRange().end.getTime() ||
+    (checkInCalendar.getRange().start.getTime() + 86400000) === checkInCalendar.getRange().end.getTime()
+  ) {
+    // Show message you must select 2 or more nights
     document.querySelector("#book-multi-night").disabled = true;
     return;
   }
@@ -247,7 +254,9 @@ function showMultiNightCalendar() {
   document.querySelector("#single-night-calendar").classList.add("hidden");
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
-  singleNightCalendar.setDate();
+  if (singleNightCalendar) {
+    singleNightCalendar.setDate();
+  }
   document.querySelector("#book-single-night").disabled = true;
 }
 
