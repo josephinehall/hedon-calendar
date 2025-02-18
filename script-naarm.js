@@ -220,7 +220,7 @@ function onSelectCheckIn(instance, date) {
   }
 
 
-  var maxDate = new Date(date.getTime() + (4 * 86400000));
+  var maxDate = new Date(date.getTime() + (3 * 86400000));
 
   for(let i = 3; i > 0; i--) {
     var previousDay = new Date(date.getTime() + (i * 86400000));
@@ -264,9 +264,8 @@ function bookMultiNight() {
   var start = checkOutCalendar.getRange().start;
   var end = checkOutCalendar.getRange().end;
   var differenceInDays = getDifferenceInDays(start, end);
-  var numberOfNights = differenceInDays + 1;
 
-  if (numberOfNights === 3) {
+  if (differenceInDays === 3) {
     if (start >= 0 && end <= 4) {
       showEmbedder(acuityEmbedUrls.weekday3.url);
     } else if ([3, 6].includes(start) && [5, 1].includes(end)) {
@@ -274,7 +273,7 @@ function bookMultiNight() {
     } else {
       showEmbedder(acuityEmbedUrls.weekday1Weekend2.url);
     }
-  } else if (numberOfNights === 2) {
+  } else if (differenceInDays === 2) {
     if (start >= 0 && end <= 4) {
       showEmbedder(acuityEmbedUrls.weekday2.url);
     } else if ([4, 6].includes(start) && [5, 0].includes(end)) {
