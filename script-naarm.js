@@ -10,35 +10,35 @@ var availableMonths = 6;
 const acuityEmbedUrls = {
   weekday1: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505",
-    price: "",
+    price: "460",
   },
   weekday2: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831591",
-    price: "",
+    price: "835",
   },
   weekday3: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831622",
-    price: "",
+    price: "1280",
   },
   weekend1: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832411",
-    price: "",
+    price: "515",
   },
   weekend2: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832566",
-    price: "",
+    price: "930",
   },
   weekday1Weekend1: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832162",
-    price: "",
+    price: "880",
   },
   weekday2Weekend1: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832095",
-    price: "",
+    price: "1325",
   },
   weekday1Weekend2: {
     url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832352",
-    price: "",
+    price: "1375",
   },
 };
 
@@ -140,11 +140,13 @@ function createSingleNightCalendar() {
 
 function showSingleNightCalendar() {
   document.querySelector("#multi-night-calendar").classList.add("hidden");
+  document.querySelector("#multi-night-info-message").classList.add("hidden");
   document.querySelector("#single-night-calendar").classList.remove("hidden");
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
   checkInCalendar.setDate();
-  if (checkOutCalendar) checkOutCalendar.remove();
+  checkOutCalendar.disabled = true;
+  checkOutCalendar.calendarContainer.classList.add("disabled");
 }
 
 function onSelectSingleNight(instance, date) {
@@ -155,22 +157,28 @@ function onSelectSingleNight(instance, date) {
     singleNightCalendar.setDate();
     singleNightCalendar.setMax();
     document.querySelector("#book-single-night").disabled = true;
+    document.querySelector("#single-night-price").textContent = null;
     return;
   }
 
+  var acuityObject = findAcuityEmbedObject(singleNightCalendar.dateSelected.getDay())
+
+  document.querySelector("#single-night-price").textContent = `Total: $${acuityObject.price}`;
   document.querySelector("#book-single-night").disabled = false;
 }
 
-function bookSingleNight() {
-  var day = singleNightCalendar.dateSelected.getDay();
-
+function findAcuityEmbedObject(day) {
   if (day === 5 || day === 6){
-    showEmbedder(acuityEmbedUrls.weekend1.url);
+    return acuityEmbedUrls.weekend1
   } else {
-    showEmbedder(acuityEmbedUrls.weekday1.url);
+    return acuityEmbedUrls.weekday1
   }
 }
 
+function bookSingleNight() {
+  var acuityObject = findAcuityEmbedObject(singleNightCalendar.dateSelected.getDay())
+  showEmbedder(acuityObject.url);
+}
 
 function createCheckInCalendar() {
   const maxDate = new Date();
@@ -210,12 +218,12 @@ function onSelectCheckIn(instance, date) {
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
 
-
   if (!date) {
     checkOutCalendar.setDate();
     checkOutCalendar.disabled = true;
     checkOutCalendar.calendarContainer.classList.add("disabled");
     document.querySelector("#multi-night-calendar").classList.add("hidden");
+    document.querySelector("#multi-night-info-message").classList.add("hidden");
     return;
   }
 
@@ -241,12 +249,13 @@ function onSelectCheckOut(instance, date) {
     checkInCalendar.getRange().start.getTime() === checkInCalendar.getRange().end.getTime() ||
     (checkInCalendar.getRange().start.getTime() + 86400000) === checkInCalendar.getRange().end.getTime()
   ) {
-    // Show message you must select 2 or more nights
     document.querySelector("#book-multi-night").disabled = true;
+    document.querySelector("#multi-night-info-message").classList.remove("hidden");
     return;
   }
 
   document.querySelector("#book-multi-night").disabled = false;
+  document.querySelector("#multi-night-info-message").classList.add("hidden");
 }
 
 function showMultiNightCalendar() {
@@ -258,6 +267,7 @@ function showMultiNightCalendar() {
     singleNightCalendar.setDate();
   }
   document.querySelector("#book-single-night").disabled = true;
+  document.querySelector("#single-night-price").textContent = null;
 }
 
 function bookMultiNight() {

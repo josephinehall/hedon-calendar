@@ -4,12 +4,12 @@
 }
 
 .calendar__wrapper {
-  height: 290px;
+  height: 320px;
 }
 
 .multi.calendar__wrapper {
   width: 510px;
-  height: 300px;
+  height: 350px;
 }
 
 .calendar__copy {
@@ -40,6 +40,11 @@
 .info {
   padding: 20px 0 0 0;
   font-size: 13px;
+}
+
+.info.message {
+  position: absolute;
+  bottom: 30px;
 }
 
 
