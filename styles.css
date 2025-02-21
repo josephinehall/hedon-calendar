@@ -39,7 +39,6 @@
 
 .info {
   padding: 20px 0 0 0;
-  font-size: 13px;
 }
 
 .info.message {
@@ -72,7 +71,11 @@
   text-decoration: underline;
 }
 
-.button:disabled,
+.button:disabled {
+  display: none;
+}
+
+
 .disabled,
 .disabled:hover {
   cursor: not-allowed;

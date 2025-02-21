@@ -161,13 +161,13 @@ function onSelectSingleNight(instance, date) {
     return;
   }
 
-  var acuityObject = findAcuityEmbedObject(singleNightCalendar.dateSelected.getDay())
+  var price = bookingDetailsForSingleNight(singleNightCalendar.dateSelected.getDay()).price;
 
-  document.querySelector("#single-night-price").textContent = `Total: $${acuityObject.price}`;
+  document.querySelector("#single-night-price").textContent = `Total: $${price}`;
   document.querySelector("#book-single-night").disabled = false;
 }
 
-function findAcuityEmbedObject(day) {
+function bookingDetailsForSingleNight(day) {
   if (day === 5 || day === 6){
     return acuityEmbedUrls.weekend1
   } else {
@@ -211,6 +211,7 @@ function createCheckOutCalendar() {
 }
 
 function onSelectCheckIn(instance, date) {
+  document.querySelector("#multi-night-price").textContent = "";
   document.querySelector("#acuity").classList.add("hidden");
   document.querySelector("#acuity-embed").src = "";
 
@@ -235,6 +236,11 @@ function onSelectCheckIn(instance, date) {
       document.querySelector("#book-multi-night").disabled = true;
     } else if (date.getTime() === (checkInCalendar.getRange().end.getTime() - (2 * 86400000))) {
       document.querySelector("#book-multi-night").disabled = false;
+    }
+
+    var details = bookingDetailsForMultiNight();
+    if (details) {
+      document.querySelector("#multi-night-price").textContent = `Total: $${details.price}`;
     }
   }
 
@@ -272,9 +278,12 @@ function onSelectCheckOut(instance, date) {
   ) {
     document.querySelector("#book-multi-night").disabled = true;
     document.querySelector("#multi-night-info-message").classList.remove("hidden");
+    document.querySelector("#multi-night-price").textContent = "";
     return;
   }
 
+  var price = bookingDetailsForMultiNight().price;
+  document.querySelector("#multi-night-price").textContent = `Total: $${price}`;
   document.querySelector("#book-multi-night").disabled = false;
   document.querySelector("#multi-night-info-message").classList.add("hidden");
 }
@@ -292,25 +301,30 @@ function showMultiNightCalendar() {
 }
 
 function bookMultiNight() {
+  var acuityUrl = bookingDetailsForMultiNight().url;
+  showEmbedder(acuityUrl);
+}
+
+function bookingDetailsForMultiNight() {
   var start = checkOutCalendar.getRange().start;
   var end = checkOutCalendar.getRange().end;
   var differenceInDays = getDifferenceInDays(start, end);
 
   if (differenceInDays === 3) {
-    if (start >= 0 && end <= 4) {
-      showEmbedder(acuityEmbedUrls.weekday3.url);
-    } else if ([3, 6].includes(start) && [5, 1].includes(end)) {
-      showEmbedder(acuityEmbedUrls.weekday2Weekend1.url);
+    if ([3, 6].includes(start.getDay()) && [5, 1].includes(end.getDay())) {
+      return acuityEmbedUrls.weekday2Weekend1;
+    } else if (start.getDay() >= 0 && end.getDay() <= 4) {
+      return acuityEmbedUrls.weekday3;
     } else {
-      showEmbedder(acuityEmbedUrls.weekday1Weekend2.url);
+      return acuityEmbedUrls.weekday1Weekend2;
     }
   } else if (differenceInDays === 2) {
-    if (start >= 0 && end <= 4) {
-      showEmbedder(acuityEmbedUrls.weekday2.url);
-    } else if ([4, 6].includes(start) && [5, 0].includes(end)) {
-      showEmbedder(acuityEmbedUrls.weekday1Weekend1.url);
+    if ([4, 6].includes(start.getDay()) && [5, 1].includes(end.getDay())) {
+      return acuityEmbedUrls.weekday1Weekend1;
+    } else if (start.getDay() >= 0 && end.getDay() <= 4) {
+      return acuityEmbedUrls.weekday2;
     } else {
-      showEmbedder(acuityEmbedUrls.weekend2.url);
+      return acuityEmbedUrls.weekend2;
     }
   }
 }
