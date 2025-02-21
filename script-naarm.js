@@ -211,12 +211,12 @@ function createCheckOutCalendar() {
 }
 
 function onSelectCheckIn(instance, date) {
+  document.querySelector("#acuity").classList.add("hidden");
+  document.querySelector("#acuity-embed").src = "";
+
   if (!!checkInCalendar.maxDate) {
     checkInCalendar.setMax();
   }
-
-  document.querySelector("#acuity").classList.add("hidden");
-  document.querySelector("#acuity-embed").src = "";
 
   if (!date) {
     checkOutCalendar.setDate();
@@ -227,6 +227,16 @@ function onSelectCheckIn(instance, date) {
     return;
   }
 
+  showInfoMessage();
+
+  if (date && checkInCalendar.getRange().end) {
+    if (date.getTime() < (checkInCalendar.getRange().end.getTime() - (3 * 86400000))) {
+      checkOutCalendar.setDate();
+      document.querySelector("#book-multi-night").disabled = true;
+    } else if (date.getTime() === (checkInCalendar.getRange().end.getTime() - (2 * 86400000))) {
+      document.querySelector("#book-multi-night").disabled = false;
+    }
+  }
 
   var maxDate = new Date(date.getTime() + (3 * 86400000));
 
@@ -241,6 +251,17 @@ function onSelectCheckIn(instance, date) {
   checkOutCalendar.setMax(maxDate);
   checkOutCalendar.disabled = false;
   checkOutCalendar.calendarContainer.classList.remove("disabled");
+}
+
+function showInfoMessage() {
+  if (checkInCalendar.getRange().start && checkInCalendar.getRange().end) {
+    if (checkInCalendar.getRange().end.getTime() - checkInCalendar.getRange().start.getTime() >= (2 * 86400000)){
+      document.querySelector("#multi-night-info-message").classList.add("hidden");
+    } else if (checkInCalendar.getRange().end.getTime() - checkInCalendar.getRange().start.getTime() >= 86400000) {
+      document.querySelector("#multi-night-info-message").classList.remove("hidden");
+    }
+
+  }
 }
 
 function onSelectCheckOut(instance, date) {
