@@ -176,7 +176,7 @@ function bookingDetailsForSingleNight(day) {
 }
 
 function bookSingleNight() {
-  var acuityObject = findAcuityEmbedObject(singleNightCalendar.dateSelected.getDay())
+  var acuityObject = bookingDetailsForSingleNight(singleNightCalendar.dateSelected.getDay())
   showEmbedder(acuityObject.url);
 }
 
@@ -340,6 +340,7 @@ function isDisabled(day) {
 function showEmbedder(url) {
   document.querySelector("#acuity-embed").src = url;
   document.querySelector("#acuity").classList.remove("hidden");
+  document.querySelector("#acuity").scrollIntoView({ behavior: 'smooth' });
 }
 
 function initalise() {
@@ -348,8 +349,6 @@ function initalise() {
 
   document.querySelector("#show-multi-night").addEventListener("click", showMultiNightCalendar);
   document.querySelector("#book-multi-night").addEventListener("click", bookMultiNight);
-
-  document.querySelector("#acuity-wrapper").innerHTML = '<iframe id="acuity-embed" src="https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505" title="Schedule Appointment" width="100%" height="1200px" frameBorder="0"></iframe>';
 }
 
 function getDifferenceInDays(start, end) {
