@@ -163,7 +163,7 @@ function onSelectSingleNight(instance, date) {
 
   var price = bookingDetailsForSingleNight(singleNightCalendar.dateSelected.getDay()).price;
 
-  document.querySelector("#single-night-price").textContent = `Total: $${price}`;
+  document.querySelector("#single-night-price").textContent = `Cost: $${price}`;
   document.querySelector("#book-single-night").disabled = false;
 }
 
@@ -240,7 +240,7 @@ function onSelectCheckIn(instance, date) {
 
     var details = bookingDetailsForMultiNight();
     if (details) {
-      document.querySelector("#multi-night-price").textContent = `Total: $${details.price}`;
+      document.querySelector("#multi-night-price").textContent = `Cost: $${details.price}`;
     }
   }
 

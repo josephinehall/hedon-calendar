@@ -4,12 +4,12 @@
 }
 
 .calendar__wrapper {
-  height: 320px;
+  height: 370px;
 }
 
 .multi.calendar__wrapper {
   width: 510px;
-  height: 370px;
+  height: 390px;
 }
 
 .calendar__copy {
@@ -43,7 +43,7 @@
 
 .info.message {
   position: absolute;
-  bottom: 30px;
+  bottom: 15px;
 }
 
 
@@ -51,24 +51,25 @@
   display: inline-block;
   outline: none;
   cursor: pointer;
-  border: 1px solid #000000;
+  border: 1px solid #496572;
   text-align: left;
   vertical-align: top;
   padding: calc(.875rem - 3px) 63px calc(.875rem - 3px) 15px;
-  background-color: #00000000;
+  background-color: #496572;
   font-size: 14px;
   letter-spacing: 0.16px;
   min-height: 48px;
   min-width: 250px;
   max-width: 250px;
   line-height: 1.29;
-  color: #000000;
+  color: #fff;
   font-weight: 400;
   border-radius: 3px;
 }
 
 .button:hover {
   text-decoration: underline;
+  opacity: 0.6;
 }
 
 .button:disabled {

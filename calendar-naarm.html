@@ -13,22 +13,23 @@
     <div class="column">
       <h2>Step 1: Check availability and rates</h2>
       <p>
-        Select the date you’d like to confirm availability for. If the date is unavailable, click here to add yourself to the waitlist, or select another date.
+        Select the date you’d like to confirm availability for. If the date is unavailable, click here to add yourself
+        to the waitlist, or select another date.
       </p>
       <h3>To check a single night:</h3>
       <p>
-        If you’d like a <strong>single night</strong>, click ‘Book a single night’ and select that date in the first
-        calendar display to view the
-        standard rates for that date for up to two people. Click ‘Continue’ to proceed to booking.
+        If you’d like a <strong>single night</strong>, select your date in the first calendar display. Standard rates
+        for up to two people will display. Click ‘Book a single night’ to proceed to booking.
       </p>
       <h3>To check multiple nights:</h3>
       <p>
-        If you’d like <strong>multiple nights</strong>, click ‘Book multiple nights’, select your check-in date on the
-        first calendar, and your
-        check-out date on the second calendar. Standard rates will display. Click ‘Continue’ to proceed to booking.
+        If you’d like <strong>multiple nights</strong>, select your check-in date on the first calendar. Then select
+        your check-out date on the second calendar. Standard rates for up to two people will display. Click ‘Book
+        multiple nights’ to proceed to booking.
       </p>
       <p>
-        <em>If you have a discount or voucher code, it can be used in the next step to confirm your modified rate.</em>
+        <em>This form shows our most popular booking types, which are between 1-3 nights. If you’d like to organise a
+          longer stay, please <a href="https://hedonhouse.com/contact/">contact us</a>.</em>
       </p>
     </div>
     <div class="flex">
@@ -46,7 +47,7 @@
             <div class="single-night">
             </div>
 
-            <div id="single-night-price" class="info message"></div>
+            <h2 id="single-night-price" class="info message"></h2>
           </div>
           <div class="book">
             <button id="book-single-night" class="button" disabled>
@@ -62,7 +63,8 @@
 
         <div id="multi-night-calendar" class="hidden">
           <div class="multi calendar__wrapper">
-            <div class="info"><em>Contact us if you'd like more than 3 nights stay.</em></div>
+            <div class="info"><em><a href="https://hedonhouse.com/contact/">Contact us</a> if you'd like more than 3
+                nights stay.</em></div>
             <div class="flex calendar__copy">
               <div>Select check-in date:</div>
               <div>Select check-out date:</div>
@@ -76,7 +78,7 @@
 
             <div id="multi-night-info-message" class="info message hidden">Please select two or more consecutive nights.
             </div>
-            <div id="multi-night-price" class="info message"></div>
+            <h2 id="multi-night-price" class="info message"></h2>
           </div>
           <div class="book">
             <button id="book-multi-night" class="button" disabled>
@@ -93,12 +95,18 @@
     <div class="column">
       <h2>Step 2: Confirm your stay</h2>
       <p>
-        Select only your check-in date and time. <em>Be sure to read through the instructions at the top of the form
-          before completing it.</em>
+        Select <strong>ONLY</strong> your check-in date and time, and any add-ons you’d like.
+      </p>
+      <p>
+        <em>Be sure to read through the instructions at the top of the form before completing it.</em>
+      </p>
+      <p>
+        If you have a discount or voucher code, it can be used in the this step.
       </p>
     </div>
     <div id="acuity-wrapper" class="acuity">
-      <iframe id="acuity-embed" src="about:blank" title="Schedule Appointment" width="100%" height="1200px" frameBorder="0"></iframe>
+      <iframe id="acuity-embed" src="about:blank" title="Schedule Appointment" width="100%" height="1200px"
+        frameBorder="0"></iframe>
     </div>
   </div>
 
