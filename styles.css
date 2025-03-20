@@ -43,7 +43,7 @@
 
 .info.message {
   position: absolute;
-  bottom: 15px;
+  bottom: 30px;
 }
 
 
@@ -75,7 +75,6 @@
 .button:disabled {
   display: none;
 }
-
 
 .disabled,
 .disabled:hover {

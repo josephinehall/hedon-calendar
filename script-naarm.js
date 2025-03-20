@@ -349,6 +349,7 @@ function initalise() {
 
   document.querySelector("#show-multi-night").addEventListener("click", showMultiNightCalendar);
   document.querySelector("#book-multi-night").addEventListener("click", bookMultiNight);
+  document.querySelector("#acuity-wrapper").innerHTML = '<iframe id="acuity-embed" src="about:blank" title="Schedule Appointment" width="100%" height="1200px" frameBorder="0"></iframe>';
 }
 
 function getDifferenceInDays(start, end) {
