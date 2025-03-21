@@ -222,7 +222,6 @@ function onSelectCheckIn(instance, date) {
     checkOutCalendar.setDate();
     checkOutCalendar.disabled = true;
     checkOutCalendar.calendarContainer.classList.add("disabled");
-    document.querySelector("#multi-night-calendar").classList.add("hidden");
     document.querySelector("#multi-night-info-message").classList.add("hidden");
     return;
   }
@@ -313,17 +312,17 @@ function bookingDetailsForMultiNight() {
   var differenceInDays = getDifferenceInDays(start, end);
 
   if (differenceInDays === 3) {
-    if ([3, 6].includes(start.getDay()) && [5, 1].includes(end.getDay())) {
+    if ([3, 6].includes(start.getDay())) {
       return acuityEmbedUrls.weekday2Weekend1;
-    } else if (start.getDay() >= 0 && end.getDay() <= 4) {
+    } else if ([0, 1, 2].includes(start.getDay())) {
       return acuityEmbedUrls.weekday3;
     } else {
       return acuityEmbedUrls.weekday1Weekend2;
     }
   } else if (differenceInDays === 2) {
-    if ([4, 6].includes(start.getDay()) && [5, 1].includes(end.getDay())) {
+    if ([4, 6].includes(start.getDay())) {
       return acuityEmbedUrls.weekday1Weekend1;
-    } else if (start.getDay() >= 0 && end.getDay() <= 4) {
+    } else if ([0, 1, 2, 3].includes(start.getDay())) {
       return acuityEmbedUrls.weekday2;
     } else {
       return acuityEmbedUrls.weekend2;
