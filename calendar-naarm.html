@@ -13,7 +13,8 @@
     <div class="column">
       <h2>Step 1: Check availability and rates</h2>
       <p>
-        Select the date you’d like to confirm availability for. If the date is unavailable, click here to add yourself
+        Select the date you’d like to confirm availability for. If the date is unavailable, <a
+          href="https://hedonhouse.com/contact/">contact us</a> to add yourself
         to the waitlist, or select another date.
       </p>
       <h3>To check a single night:</h3>
@@ -33,86 +34,90 @@
       </p>
     </div>
     <div class="flex">
-      <div class="flex column">
+      <div class="column">
         <button id="show-single-night" class="button">
           Book a single night &rarr;
         </button>
-
-        <div id="single-night-calendar" class="hidden">
-          <div class="single calendar__wrapper">
-            <div class="flex calendar__copy">
-              Select your night:
-            </div>
-
-            <div class="single-night">
-            </div>
-
-            <h2 id="single-night-price" class="info message"></h2>
-          </div>
-          <div class="book">
-            <button id="book-single-night" class="button" disabled>
-              Continue &rarr;
-            </button>
-          </div>
-        </div>
       </div>
-      <div class="flex column col-2">
+      <div class="column">
         <button id="show-multi-night" class="button">
           Book multiple nights &rarr;
         </button>
-
-        <div id="multi-night-calendar" class="hidden">
-          <div class="multi calendar__wrapper">
-            <div class="info"><em><a href="https://hedonhouse.com/contact/">Contact us</a> if you'd like more than 3
-                nights stay.</em></div>
-            <div class="flex calendar__copy">
-              <div>Select check-in date:</div>
-              <div>Select check-out date:</div>
-            </div>
-
-            <div class="check-in">
-            </div>
-
-            <div class="check-out">
-            </div>
-
-            <div id="multi-night-info-message" class="info message hidden">Please select two or more consecutive nights,
-              or click the button to ‘Book a single night’.
-            </div>
-            <h2 id="multi-night-price" class="info message"></h2>
+      </div>
+    </div>
+    <div class="flex column">
+      <div id="single-night-calendar" class="hidden">
+        <div class="single calendar__wrapper">
+          <div class="flex info">
+            Select your night:
           </div>
-          <div class="book">
-            <button id="book-multi-night" class="button" disabled>
-              Continue &rarr;
-            </button>
+
+          <div class="single-night">
           </div>
+
+          <h2 id="single-night-price" class="info message"></h2>
+        </div>
+        <div class="book hidden" id="book-single-night">
+          <h2>Step 2: Confirm your stay</h2>
+          <p>
+            Select <strong>ONLY</strong> your check-in date and time, and any add-ons you’d like.
+          </p>
+          <p>
+            <em>Be sure to read through the instructions at the top of the form before completing it.</em>
+          </p>
+          <p>
+            If you have a discount or voucher code, it can be used in the this step.
+          </p>
+          <a id="book-single-night-button" class="button continue" href="" target="_blank">
+            Continue &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex column col-2">
+      <div id="multi-night-calendar" class="hidden">
+        <div class="multi calendar__wrapper">
+          <div>
+            <em><a href="https://hedonhouse.com/contact/">Contact us</a> if you'd like more than 3
+              nights stay.</em>
+          </div>
+          <div class="flex calendar__copy">
+            <div>Select check-in date:</div>
+            <div>Select check-out date:</div>
+          </div>
+
+          <div class="check-in">
+          </div>
+
+          <div class="check-out">
+          </div>
+
+          <div id="multi-night-info-message" class="info message hidden">Please select two or more consecutive nights,
+            or click the button to ‘Book a single night’.
+          </div>
+          <h2 id="multi-night-price" class="info message"></h2>
+        </div>
+        <div class="book hidden" id="book-multi-night">
+          <h2>Step 2: Confirm your stay</h2>
+          <p>
+            Select <strong>ONLY</strong> your check-in date and time, and any add-ons you’d like.
+          </p>
+          <p>
+            <em>Be sure to read through the instructions at the top of the form before completing it.</em>
+          </p>
+          <p>
+            If you have a discount or voucher code, it can be used in the this step.
+          </p>
+          <a id="book-multi-night-button" class="button continue" href="" target="_blank">
+            Continue &rarr;
+          </a>
         </div>
       </div>
     </div>
   </div>
 
-
-  <div id="acuity" class="acuity hidden">
-    <div class="column">
-      <h2>Step 2: Confirm your stay</h2>
-      <p>
-        Select <strong>ONLY</strong> your check-in date and time, and any add-ons you’d like.
-      </p>
-      <p>
-        <em>Be sure to read through the instructions at the top of the form before completing it.</em>
-      </p>
-      <p>
-        If you have a discount or voucher code, it can be used in the this step.
-      </p>
-    </div>
-    <div id="acuity-wrapper" class="acuity"></div>
-  </div>
-
-
-
   <script src="https://unpkg.com/js-datepicker"></script>
   <script src="script-naarm.js"></script>
-  <script src="https://embed.acuityscheduling.com/js/embed.js" type="text/javascript"></script>
 </body>
 
 </html>

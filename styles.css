@@ -1,10 +1,5 @@
-.calendar,
-.acuity {
-  max-width: 800px;
-}
-
 .calendar__wrapper {
-  height: 370px;
+  height: 340px;
 }
 
 .multi.calendar__wrapper {
@@ -24,7 +19,7 @@
 
 .column {
   flex-direction: column;
-  margin: 20px 10px;
+  margin: 10px 10px;
 }
 
 .hidden {
@@ -38,12 +33,12 @@
 }
 
 .info {
-  padding: 20px 0 0 0;
+  padding: 10px 0 0 0;
 }
 
 .info.message {
   position: absolute;
-  bottom: 30px;
+  bottom: 0;
 }
 
 
@@ -54,11 +49,10 @@
   border: 1px solid #496572;
   text-align: left;
   vertical-align: top;
-  padding: calc(.875rem - 3px) 63px calc(.875rem - 3px) 15px;
+  padding: 15px;
   background-color: #496572;
   font-size: 14px;
   letter-spacing: 0.16px;
-  min-height: 48px;
   min-width: 250px;
   max-width: 250px;
   line-height: 1.29;
@@ -76,8 +70,21 @@
   display: none;
 }
 
+a.button {
+  text-decoration: none;
+  font-family: sans-serif;
+}
+
 .disabled,
 .disabled:hover {
   cursor: not-allowed;
   opacity: 0.3;
+}
+
+.active {
+  background-color: #374c56;
+}
+
+.continue{
+  margin-top: 20px;
 }
