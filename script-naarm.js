@@ -142,6 +142,7 @@ function showSingleNightCalendar() {
   document.querySelector("#show-multi-night").classList.remove("active");
   document.querySelector("#multi-night-calendar").classList.add("hidden");
   document.querySelector("#multi-night-info-message").classList.add("hidden");
+  document.querySelector("#multi-night-price").textContent = "";
   document.querySelector("#book-multi-night").classList.add("hidden");
 
   document.querySelector("#single-night-calendar").classList.remove("hidden");
