@@ -37,16 +37,15 @@
   bottom: 20px;
 }
 
-.multi.info {
+.multi .info.message {
   padding: 10px 0 0 0;
   bottom: 30px;
 }
 
 .info.message {
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
 }
-
 
 .button {
   display: inline-block;
@@ -91,6 +90,10 @@ a.button {
   background-color: #374c56;
 }
 
-.continue{
+.continue {
   margin-top: 20px;
+}
+
+.book {
+  padding-top: 20px;
 }

@@ -9,35 +9,35 @@ var availableMonths = 6;
 
 const acuityEmbedUrls = {
   weekday1: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831505",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=12404888",
     price: "460",
   },
   weekday2: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831591",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15539912",
     price: "835",
   },
   weekday3: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53831622",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15797860",
     price: "1280",
   },
   weekend1: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832411",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=13051045",
     price: "515",
   },
   weekend2: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832566",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=13122085",
     price: "930",
   },
   weekday1Weekend1: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832162",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15797909",
     price: "880",
   },
   weekday2Weekend1: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832095",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15542319",
     price: "1325",
   },
   weekday1Weekend2: {
-    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=53832352",
+    url: "https://app.acuityscheduling.com/schedule.php?owner=18755904&appointmentType=15797947",
     price: "1375",
   },
 };
