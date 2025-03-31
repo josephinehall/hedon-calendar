@@ -42,8 +42,11 @@ const acuityEmbedUrls = {
   },
 };
 
-fetchGoogleCalData();
-initalise();
+if (document.querySelectorAll(".page-id-94").length > 0){
+  fetchGoogleCalData();
+  initalise();  
+}
+
 
 function fetchGoogleCalData() {
   fetch("https://hedonhouse.app.n8n.cloud/webhook/naarm")
@@ -69,8 +72,17 @@ function fetchGoogleCalData() {
 
     singleNightCalendar.calendarContainer.style.setProperty("top", "60px");
     checkInCalendar.calendarContainer.style.setProperty("top", "90px");
-    checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
-    checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
+  
+  if (window.screen.width < 510) {
+      checkOutCalendar.calendarContainer.style.setProperty("top", "370px");
+      document.querySelector("#check-in-copy").classList.add("mobile");
+      document.querySelector("#check-out-copy").classList.add("mobile");
+      document.querySelectorAll(".multi.calendar__wrapper")[0].style = "height: 650px; width: 300px; position: relative;";
+    } else {
+      checkOutCalendar.calendarContainer.style.setProperty("left", "260px");
+      checkOutCalendar.calendarContainer.style.setProperty("top", "90px");
+    }
+
     checkOutCalendar.calendarContainer.classList.add("disabled");
     checkOutCalendar.disabled = true;
 

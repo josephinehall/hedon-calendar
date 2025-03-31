@@ -7,6 +7,17 @@
   height: 390px;
 }
 
+#check-in-copy.mobile {
+  position: absolute;
+  left: 0;
+}
+
+#check-out-copy.mobile {
+  position: absolute;
+  top: 330px;
+  left: 0;
+}
+
 .calendar__copy {
   justify-content: space-around;
   padding: 20px 0 0 0;
@@ -34,7 +45,6 @@
 
 .info {
   padding: 10px 0 0 0;
-  bottom: 20px;
 }
 
 .multi .info.message {
@@ -46,6 +56,7 @@
   position: absolute;
   bottom: 20px;
 }
+
 
 .button {
   display: inline-block;
