@@ -38,9 +38,12 @@
   visibility: hidden;
 }
 
+.mb {
+  margin-bottom: 30px;
+}
+
 .pb {
-  padding-bottom: 15px !important;
-  text-align: center;
+  padding-block: 1em !important;
 }
 
 .info {
