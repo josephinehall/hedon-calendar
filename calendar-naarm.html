@@ -21,24 +21,11 @@
         If you’d like a <strong>single night</strong>, select your date in the first calendar display. Standard rates
         for up to two people will display. Click ‘Book a single night’ to proceed to booking.
       </p>
-      <button id="show-single-night" class="button">
+      <button id="show-single-night" class="continue button">
         Book a single night &rarr;
       </button>
-      <h3>To check multiple nights:</h3>
-      <p>
-        If you’d like <strong>multiple nights</strong>, select your check-in date on the first calendar. Then select
-        your check-out date on the second calendar. Standard rates for up to two people will display. Click ‘Book
-        multiple nights’ to proceed to booking.
-      </p>
-      <p>
-        <em>This form shows our most popular booking types, which are between 1-3 nights. If you’d like to organise a
-          longer stay, please <a href="https://hedonhouse.com/contact/">contact us</a>.</em>
-      </p>
-      <button id="show-multi-night" class="button">
-        Book multiple nights &rarr;
-      </button>
     </div>
-    <div class="flex column">
+    <div class="flex column mb">
       <div id="single-night-calendar" class="hidden">
         <div class="single calendar__wrapper">
           <div class="flex info">
@@ -50,7 +37,7 @@
 
           <h2 id="single-night-price" class="info message"></h2>
         </div>
-        <div class="book hidden" id="book-single-night">
+        <div class="book mb hidden" id="book-single-night">
           <h2>Step 2: Confirm your stay</h2>
           <p>
             Select <strong>ONLY</strong> your check-in date and time, and any add-ons you’d like.
@@ -67,7 +54,23 @@
         </div>
       </div>
     </div>
-    <div class="flex column col-2">
+    <div class="column">
+      <h3>To check multiple nights:</h3>
+      <p>
+        If you’d like <strong>multiple nights</strong>, select your check-in date on the first calendar. Then select
+        your check-out date on the second calendar. Standard rates for up to two people will display. Click ‘Book
+        multiple nights’ to proceed to booking.
+      </p>
+      <p>
+        <em>This form shows our most popular booking types, which are between 1-3 nights. If you’d like to organise a
+          longer stay, please <a href="https://hedonhouse.com/contact/">contact us</a>.</em>
+      </p>
+      <button id="show-multi-night" class="button">
+        Book multiple nights &rarr;
+      </button>
+    </div>
+
+    <div class="flex column">
       <div id="multi-night-calendar" class="hidden">
         <div class="multi calendar__wrapper">
           <div>
